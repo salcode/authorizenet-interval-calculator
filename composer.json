@@ -15,5 +15,15 @@
         }
     ],
     "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "salcode\\AuthorizeNetIntervalCalculator\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "salcode\\AuthorizeNetIntervalCalculator\\Test\\": "src/"
+        }
+    },
     "require": {}
 }

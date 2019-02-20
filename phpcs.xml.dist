@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<ruleset>
+  <file>src</file>
+
+  <rule ref="PSR2"/>
+  <rule ref="Generic.PHP">
+
+    <!-- Do not require closing PHP tag -->
+    <exclude name="Generic.PHP.ClosingPHPTag.NotFound"/>
+
+    <!-- Do not require true and false be upper-case -->
+    <exclude name="Generic.PHP.UpperCaseConstant.Found"/>
+
+  </rule>
+  <rule ref="Squiz.Strings"/>
+  <rule ref="Squiz.WhiteSpace.CastSpacing"/>
+  <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+  <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
+  <rule ref="Generic.NamingConventions"/>
+
+	<!-- Covers rule: Braces shall be used for all blocks. -->
+	<rule ref="Squiz.ControlStructures.ControlSignature"/>
+
+	<!-- Covers rule: Braces should always be used, even when they are not required. -->
+	<rule ref="Generic.ControlStructures.InlineControlStructure"/>
+  <rule ref="Squiz.Commenting">
+    <!-- WP prefers indicating @since, @package, @subpackage etc in class comments -->
+    <exclude name="Squiz.Commenting.ClassComment.TagNotAllowed"/>
+
+    <!-- WP doesn't require //end ... for classes and functions -->
+    <exclude name="Squiz.Commenting.ClosingDeclarationComment.Missing"/>
+
+    <!-- Excluded to allow param documentation for arrays  -->
+    <exclude name="Squiz.Commenting.DocCommentAlignment.SpaceAfterStar"/>
+
+    <!-- WP doesn't require a @author value for Squiz -->
+    <exclude name="Squiz.Commenting.FileComment.IncorrectAuthor"/>
+    <!-- WP doesn't require a @copyright value for Squiz -->
+    <exclude name="Squiz.Commenting.FileComment.IncorrectCopyright"/>
+    <!-- WP doesn't require @author tags -->
+    <exclude name="Squiz.Commenting.FileComment.MissingAuthorTag"/>
+    <!-- WP doesn't require @subpackage tags -->
+    <exclude name="Squiz.Commenting.FileComment.MissingSubpackageTag"/>
+    <!-- WP doesn't require @copyright tags -->
+    <exclude name="Squiz.Commenting.FileComment.MissingCopyrightTag"/>
+    <!-- WP has a different prefered order of tags -->
+    <exclude name="Squiz.Commenting.FileComment.PackageTagOrder"/>
+    <!-- WP has a different prefered order of tags -->
+    <exclude name="Squiz.Commenting.FileComment.SubpackageTagOrder"/>
+    <!-- WP has a different prefered order of tags -->
+    <exclude name="Squiz.Commenting.FileComment.AuthorTagOrder"/>
+    <!-- WP has a different prefered order of tags -->
+    <exclude name="Squiz.Commenting.FileComment.CopyrightTagOrder"/>
+
+    <!-- WP prefers int and bool instead of integer and boolean -->
+    <exclude name="Squiz.Commenting.FunctionComment.IncorrectParamVarName"/>
+    <!-- WP prefers int and bool instead of integer and boolean -->
+    <exclude name="Squiz.Commenting.FunctionComment.InvalidReturn"/>
+    <!-- WP prefers indicating a @return null for early returns -->
+    <exclude name="Squiz.Commenting.FunctionComment.InvalidReturnNotVoid"/>
+    <!-- WP states not all functions require @return -->
+    <exclude name="Squiz.Commenting.FunctionComment.MissingReturn"/>
+    <!-- Excluded to allow param documentation for arrays  -->
+    <exclude name="Squiz.Commenting.FunctionComment.ParamCommentNotCapital"/>
+    <!-- Excluded to allow param documentation for arrays  -->
+    <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamName"/>
+    <!-- It is too early for PHP7 features to be required -->
+    <exclude name="Squiz.Commenting.FunctionComment.ScalarTypeHintMissing"/>
+    <!-- WP doesn't require type hints -->
+    <exclude name="Squiz.Commenting.FunctionComment.TypeHintMissing"/>
+
+    <!-- Not in Inline Docs standard, and a code smell -->
+    <exclude name="Squiz.Commenting.LongConditionClosingComment"/>
+
+    <!-- WP prefers int and bool instead of integer and boolean -->
+    <exclude name="Squiz.Commenting.VariableComment.IncorrectVarType"/>
+    <!-- WP demands a @since tag for class variables -->
+    <exclude name="Squiz.Commenting.VariableComment.TagNotAllowed"/>
+    <!-- WP prefers @since first -->
+    <exclude name="Squiz.Commenting.VariableComment.VarOrder"/>
+  </rule>
+
+  <rule ref="Generic.Commenting"/>
+</ruleset>

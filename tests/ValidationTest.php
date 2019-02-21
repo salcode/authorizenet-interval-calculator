@@ -1,6 +1,6 @@
 <?php
 /**
- * AuthorizeNetIntervalCalculator Tests
+ * AuthorizeNetIntervalCalculator Validation Tests
  *
  * @package   salcode\AuthorizeNetIntervalCalculator
  * @author    Sal Ferrarello <sal@ironcodestudio.com>
@@ -14,9 +14,9 @@ use DateTimeImmutable;
 use salcode\AuthorizeNetIntervalCalculator\AuthorizeNetIntervalCalculator;
 
 /**
- * Class: AuthorizeNetIntervalCalculatorTest
+ * Class: ValidationTest
  */
-class AuthorizeNetIntervalCalculatorTest extends \PHPUnit\Framework\TestCase
+class ValidationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test Validation

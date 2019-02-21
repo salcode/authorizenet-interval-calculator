@@ -84,8 +84,13 @@ class AuthorizeNetIntervalCalculator implements AuthorizeNetIntervalCalculatorIn
      *
      * @return bool The combination of length and unit are valid.
      */
-    protected function isLengthAndUnitValid(int $length, string $unit)
+    protected function isLengthAndUnitValid(int $length, string $unit): bool
     {
-        return true;
+        if ($unit === 'days' && $length >= 7 && $length <= 365) {
+            return true;
+        } elseif ($unit === 'months' && $length >= 1 && $length <= 12) {
+            return true;
+        }
+        return false;
     }
 }

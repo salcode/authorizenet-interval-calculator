@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace salcode\AuthorizeNetIntervalCalculator;
 
 use DateTimeInterface;
+use InvalidArgumentException;
 
 /**
  * Class: AuthorizeNetIntervalCalculator
@@ -61,12 +62,13 @@ class AuthorizeNetIntervalCalculator implements AuthorizeNetIntervalCalculatorIn
      *                  or 'months'.
      * @param DateTimeInterface $startDate The date of the first payment.
      *
-     * @throws Exception When length and unit are not valid.
+     * @throws InvalidArgumentException When length and unit are not a
+     *                                  valid combination.
      */
     public function __construct(int $length, string $unit, DateTimeInterface $startDate)
     {
         if (! $this->isLengthAndUnitValid($length, $unit)) {
-            throw Exception('This is not valid');
+            throw new InvalidArgumentException('The combination of length and unit are invalid');
         }
         $this->length    = $length;
         $this->unit      = $unit;

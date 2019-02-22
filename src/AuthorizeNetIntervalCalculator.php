@@ -15,6 +15,7 @@ namespace salcode\AuthorizeNetIntervalCalculator;
 use DateTimeImmutable;
 use DateTimeInterface;
 use InvalidArgumentException;
+use LogicException;
 
 /**
  * Class: AuthorizeNetIntervalCalculator
@@ -80,6 +81,84 @@ class AuthorizeNetIntervalCalculator implements AuthorizeNetIntervalCalculatorIn
         $this->length    = $length;
         $this->unit      = $unit;
         $this->setStartDate($startDate);
+    }
+
+    /**
+     * Get DateTime of Occurrence
+     *
+     * @param int $occurrence The occurrence we want to find the date for.
+     *
+     * @return DateTimeImmutable The DateTime of the next occurrence.
+     * @throws InvalidArgumentException When the occurrence value is outside
+     *         the accepted range.
+     * @throws LogicException When the unit property has an invalid value.
+     */
+    public function getDate(int $occurrence): DateTimeImmutable
+    {
+        if ($occurrence < 1 || $occurrence > self::MAX_NUM_OCCURRENCES) {
+            throw new InvalidArgumentException(
+                'The occurrence number '.$occurrence.' is outside the acceptable range'
+            );
+        }
+        // Occurrence 1 is the startDate (i.e. 0 number of periods).
+        $numOfPeriods = ($occurrence-1) * $this->length;
+
+        if ($this->unit === 'days') {
+            return $this->getDateUsingDays($numOfPeriods);
+        } elseif ($this->unit === 'months') {
+            return $this->getDateUsingMonths($numOfPeriods);
+        }
+        throw new LogicException('unit property has an invalid value'.$this->unit);
+    }
+
+    /**
+     * Get DateTime of Occurrence using Days
+     *
+     * @param int $numOfPeriods The number of periods to look ahead.
+     *
+     * @return DateTimeImmutable The DateTime for the occurrence after the given
+     *         number of periods.
+     */
+    protected function getDateUsingDays(int $numOfPeriods): DateTimeImmutable
+    {
+        return $this->startDate->modify(
+            sprintf('+%d days', $numOfPeriods)
+        );
+    }
+
+    /**
+     * Get DateTime of Occurrence using Months
+     *
+     * Because the definition of a month in PHP can lead to unexpected values,
+     * we must add some additional logic.
+     * e.g. echo date('Y-m-d', strtotime('2018-01-31 +1 month'));
+     * displays "2018-03-03" instead of "2018-02-28"
+     *
+     * See https://stackoverflow.com/a/5760371.
+     *
+     * @param int $numOfPeriods The number of periods to look ahead.
+     *
+     * @return DateTimeImmutable The DateTime for the occurrence after the given
+     *         number of periods.
+     */
+    protected function getDateUsingMonths(int $numOfPeriods): DateTimeImmutable
+    {
+        $startDay = $this->startDate->format('j');
+        $occurrenceDate = $this->startDate->modify(
+            sprintf('+%d months', $numOfPeriods)
+        );
+        if ($occurrenceDate->format('j') === $startDay) {
+            return $occurrenceDate;
+        }
+
+        // The occurrence day of the month is different from the startDate
+        // day of the month.
+        // e.g. "2018-01-31" has a day of the month of '31'
+        // "2018-01-31 + 1 month" is "2018-03-03", which has a day of the month
+        // of "03".
+        // In this case, we want the last day
+        // of the previous month.
+        return $occurrenceDate->modify('last day of last month');
     }
 
     /**

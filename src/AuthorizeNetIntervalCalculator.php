@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace salcode\AuthorizeNetIntervalCalculator;
 
+use DateTimeImmutable;
 use DateTimeInterface;
 use InvalidArgumentException;
 
@@ -45,7 +46,7 @@ class AuthorizeNetIntervalCalculator implements AuthorizeNetIntervalCalculatorIn
     /**
      * Start Date of subscription
      *
-     * @var DateTimeInterface
+     * @var DateTimeImmutable
      */
     protected $startDate;
 
@@ -72,7 +73,7 @@ class AuthorizeNetIntervalCalculator implements AuthorizeNetIntervalCalculatorIn
         }
         $this->length    = $length;
         $this->unit      = $unit;
-        $this->startDate = $startDate;
+        $this->setStartDate($startDate);
     }
 
     /**
@@ -92,5 +93,22 @@ class AuthorizeNetIntervalCalculator implements AuthorizeNetIntervalCalculatorIn
             return true;
         }
         return false;
+    }
+
+    /**
+     * Set startDate
+     *
+     * Since the startDate argument must implement the DateTimeInterface,
+     * it may be either mutable or immutable. We store the startDate property
+     * as an immutable value.
+     *
+     * @param DateTimeInterface $startDate The date of the first payment.
+     */
+    protected function setStartDate(DateTimeInterface $startDate)
+    {
+        // Set the startDate property as a DateTimeImmutable value.
+        $this->startDate = $startDate instanceof DateTimeImmutable ?
+            $startDate :
+            DateTimeImmutable::createFromMutable($startDate);
     }
 }

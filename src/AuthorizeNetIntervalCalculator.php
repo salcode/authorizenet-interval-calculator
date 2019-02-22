@@ -23,6 +23,12 @@ use InvalidArgumentException;
  */
 class AuthorizeNetIntervalCalculator implements AuthorizeNetIntervalCalculatorInterface
 {
+    // Bounding values as defined by Authorize.Net.
+    const MAX_NUM_OCCURRENCES = 9999;
+    const MINIMUM_DAYS        = 7;
+    const MAXIMUM_DAYS        = 365;
+    const MINIMUM_MONTHS      = 1;
+    const MAXIMUM_MONTHS      = 12;
 
     /**
      * Length
@@ -87,9 +93,9 @@ class AuthorizeNetIntervalCalculator implements AuthorizeNetIntervalCalculatorIn
      */
     protected function isLengthAndUnitValid(int $length, string $unit): bool
     {
-        if ($unit === 'days' && $length >= 7 && $length <= 365) {
+        if ($unit === 'days' && $length >= self::MINIMUM_DAYS && $length <= self::MAXIMUM_DAYS) {
             return true;
-        } elseif ($unit === 'months' && $length >= 1 && $length <= 12) {
+        } elseif ($unit === 'months' && $length >= self::MINIMUM_MONTHS && $length <= self::MAXIMUM_MONTHS) {
             return true;
         }
         return false;

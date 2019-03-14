@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace salcode\AuthorizeNetIntervalCalculator;
 
 use DateTimeImmutable;
+use DateTimeInterface;
 
 /**
  * Interface: AuthorizeNetIntervalCalculatorInterface
@@ -29,4 +30,19 @@ interface AuthorizeNetIntervalCalculatorInterface
      *         the accepted range.
      */
     public function getDate(int $occurrence): DateTimeImmutable;
+
+    /**
+     * Get DateTime of Occurence after given DateTime.
+     *
+     * @param DateTimeInterface $afterDate The DateTime we want to use as a
+     *        lower bound (non-inclusive).
+     *
+     * @return DateTimeImmutable The DateTime of the first occurrence after
+     *         the given DateTime.
+     * @throws RangeException When no occurrence (within Authorize.Net's
+     *         maximum number of occurences) falls after the given DateTime.
+     *         Note: Based on the current minimum and maximum bounds of a
+     *         PHP DateTimeImmutable object, this should never occur.
+     */
+    public function getDateAfter(DateTimeInterface $afterDate): DateTimeImmutable;
 }

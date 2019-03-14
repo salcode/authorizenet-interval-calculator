@@ -16,6 +16,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use InvalidArgumentException;
 use LogicException;
+use RangeException;
 
 /**
  * Class: AuthorizeNetIntervalCalculator
@@ -109,6 +110,36 @@ class AuthorizeNetIntervalCalculator implements AuthorizeNetIntervalCalculatorIn
             return $this->getDateUsingMonths($numOfPeriods);
         }
         throw new LogicException('unit property has an invalid value'.$this->unit);
+    }
+
+    /**
+     * Get DateTime of Occurence after given DateTime.
+     *
+     * @param DateTimeInterface $afterDate The DateTime we want to use as a
+     *        lower bound (non-inclusive).
+     *
+     * @return DateTimeImmutable The DateTime of the first occurrence after
+     *         the given DateTime.
+     * @throws RangeException When no occurrence (within Authorize.Net's
+     *         maximum number of occurences) falls after the given DateTime.
+     *         Note: Based on the current minimum and maximum bounds of a
+     *         PHP DateTimeImmutable object, this should never occur.
+     */
+    public function getDateAfter(DateTimeInterface $afterDate): DateTimeImmutable
+    {
+        // The first occurrence is one, not zero.
+        $occurrenceNum  = 1;
+        $occurrenceDate = $this->getDate($occurrenceNum);
+        while ($afterDate > $occurrenceDate) {
+            $occurrenceNum++;
+            if ($occurrenceNum > self::MAX_NUM_OCCURRENCES) {
+                throw new RangeException(
+                    'Unable to find occurrence within maximum number of occurrences ('.self::MAX_NUM_OCCURRENCES.')'
+                );
+            }
+            $occurrenceDate = $this->getDate($occurrenceNum);
+        }
+        return $occurrenceDate;
     }
 
     /**

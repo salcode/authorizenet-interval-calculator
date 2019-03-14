@@ -4,7 +4,7 @@
  *
  * @package   salcode\AuthorizeNetIntervalCalculator
  * @author    Sal Ferrarello <sal@ironcodestudio.com>
- * @copyright 2018 Sal Ferrarello, Iron Code Studio
+ * @copyright 2019 Sal Ferrarello, Iron Code Studio
  * @license   apache-2.0
  */
 

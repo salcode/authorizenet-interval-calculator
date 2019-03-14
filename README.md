@@ -48,6 +48,24 @@ for ($i=1; $i<5; $i++) {
 # 2019-04-30
 ```
 
+### Get Date After
+
+```
+$length    = 3;
+$unit      = 'months';
+$startDate = new DateTimeImmutable('2019-03-31');
+$authNetIntervalCalc = new \salcode\AuthorizeNetIntervalCalculator\AuthorizeNetIntervalCalculator(
+  $length,
+  $unit,
+  $startDate
+);
+$afterDate = new DateTimeImmutable('2020-09-01');
+echo $authNetIntervalCalc->getDateAfter($afterDate)->format('Y-m-d');
+
+## Output
+# 2020-12-31
+```
+
 ## Related Resources
 
 - [Authorize.Net Recurring Billing API Documentation](https://developer.authorize.net/api/reference/index.html#recurring-billing), including intervals
